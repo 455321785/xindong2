@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>心动私人影院 | 助教陪玩体验馆</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Noto Sans SC', sans-serif; }
+body { background-color:#000; color:#fff; min-height:100vh; overflow-x:hidden; position:relative; touch-action:pan-y; }
+
+/* 优雅低调的星空背景 */
+#starfield { 
+    position:fixed; 
+    top:0; 
+    left:0; 
+    width:100%; 
+    height:100%; 
+    z-index:0; 
+    background: #000; /* 纯黑色背景 */
+    overflow:hidden;
+}
+
+/* 小而密的星星 */
+.star { 
+    position:absolute; 
+    background:#fff; 
+    border-radius:50%; 
+    animation:twinkle var(--duration) infinite ease-in-out; 
+}
+
+/* 微小星星 - 大部分都是这种 */
+.star.tiny {
+    width:0.8px;
+    height:0.8px;
+    background:#fff;
+    box-shadow:0 0 4px rgba(255,255,255,0.7);
+    opacity:0.3;
+    z-index:1;
+}
+
+/* 小星星 */
+.star.small {
+    width:1.2px;
+    height:1.2px;
+    background:#fff;
+    box-shadow:0 0 6px rgba(255,255,255,0.8);
+    opacity:0.5;
+    z-index:1;
+}
+
+/* 中星星 - 较少 */
+.star.medium {
+    width:1.8px;
+    height:1.8px;
+    background:#fff;
+    box-shadow:0 0 8px rgba(255,255,255,0.9);
+    opacity:0.7;
+    z-index:1;
+}
+
+/* 闪烁动画 - 柔和 */
+@keyframes twinkle {
+    0%, 100% { 
+        opacity:0.1; 
+        transform:scale(0.6);
+    }
+    50% { 
+        opacity:0.8; 
+        transform:scale(1.2);
+    }
+}
+
+/* 不同闪烁速度 */
+.star.fast {
+    animation:fastTwinkle 2s infinite ease-in-out;
+}
+
+@keyframes fastTwinkle {
+    0%, 100% { 
+        opacity:0.1; 
+        transform:scale(0.5);
+    }
+    50% { 
+        opacity:0.9; 
+        transform:scale(1.3);
+    }
+}
+
+.star.slow {
+    animation:slowTwinkle 8s infinite ease-in-out;
+}
+
+@keyframes slowTwinkle {
+    0%, 100% { 
+        opacity:0.2; 
+        transform:scale(0.7);
+    }
+    50% { 
+        opacity:0.7; 
+        transform:scale(1.1);
+    }
+}
+
+.star.blink {
+    animation:blinkTwinkle 4s infinite ease-in-out;
+}
+
+@keyframes blinkTwinkle {
+    0%, 100% { 
+        opacity:0.15; 
+        transform:scale(0.6);
+    }
+    50% { 
+        opacity:0.85; 
+        transform:scale(1.2);
+    }
+}
+
+/* 流星效果 - 简约优雅 */
+.shooting-star {
+    position:absolute;
+    width:1px;
+    height:120px;
+    background: linear-gradient(to bottom, 
+        transparent, 
+        rgba(255,255,255,0.7) 10%,
+        rgba(255,255,255,0.9) 30%,
+        rgba(255,255,255,0.4) 70%,
+        transparent
+    );
+    transform:rotate(45deg);
+    animation:shoot 3s linear infinite;
+    opacity:0;
+    filter:blur(0.5px);
+    z-index:2;
+}
+
+@keyframes shoot {
+    0% {
+        opacity:0;
+        transform:translate(-500px, -500px) rotate(45deg);
+    }
+    10% {
+        opacity:0.8;
+        transform:translate(-300px, -300px) rotate(45deg);
+    }
+    50% {
+        opacity:1;
+        transform:translate(0, 0) rotate(45deg);
+    }
+    90% {
+        opacity:0.2;
+        transform:translate(300px, 300px) rotate(45deg);
+    }
+    100% {
+        opacity:0;
+        transform:translate(500px, 500px) rotate(45deg);
+    }
+}
+
+/* 多个流星轨道 - 随机时间出现 */
+.shooting-star.track-1 { animation-delay: 0s; }
+.shooting-star.track-2 { animation-delay: 15s; }
+.shooting-star.track-3 { animation-delay: 32s; }
+.shooting-star.track-4 { animation-delay: 47s; }
+.shooting-star.track-5 { animation-delay: 63s; }
+
+/* 首页样式 */
+.home-screen { 
+    width:100vw; 
+    height:100vh; 
+    display:flex; 
+    flex-direction:column; 
+    justify-content:center; 
+    align-items:center; 
+    padding:20px;
+    position:relative;
+    z-index:1;
+    background: rgba(0,0,0,0.5); /* 半透明黑色叠加 */
+}
+
+.title-container { 
+    text-align:center; 
+    z-index:2; 
+    max-width:500px; 
+    width:100%;
+    padding:0 20px; 
+    animation:fadeIn 1.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity:0; transform:translateY(30px); }
+    to { opacity:1; transform:translateY(0); }
+}
+
+.main-title { 
+    font-size:3rem; 
+    font-weight:900; 
+    background: linear-gradient(135deg,#ff6b9d,#c77dff,#8a5cea,#4cc9f0,#00ffcc); 
+    -webkit-background-clip:text; 
+    background-clip:text; 
+    color:transparent; 
+    margin-bottom:20px; 
+    letter-spacing:1px; 
+    text-shadow:0 5px 20px rgba(199,125,255,0.5),
+                0 0 40px rgba(153,51,204,0.4),
+                0 0 80px rgba(123,104,238,0.3);
+    line-height:1.2;
+    animation:titleGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+    0% { 
+        text-shadow:0 5px 20px rgba(199,125,255,0.5),
+                    0 0 40px rgba(153,51,204,0.4);
+    }
+    100% { 
+        text-shadow:0 5px 25px rgba(255,107,157,0.8),
+                    0 0 50px rgba(199,125,255,0.7),
+                    0 0 80px rgba(123,104,238,0.5);
+    }
+}
+
+.subtitle { 
+    font-size:1.6rem; 
+    font-weight:800; 
+    background: linear-gradient(135deg,#b19cd9,#7b68ee,#6a5acd,#4169e1,#483d8b); 
+    -webkit-background-clip:text; 
+    background-clip:text; 
+    color:transparent; 
+    margin-bottom:30px; 
+    animation:subtitle-glow 3s ease-in-out infinite alternate;
+    line-height:1.3;
+}
+
+@keyframes subtitle-glow { 
+    0% { 
+        text-shadow:0 4px 15px rgba(123,104,238,0.5),
+                    0 0 25px rgba(153,51,204,0.4); 
+    } 
+    100% { 
+        text-shadow:0 4px 20px rgba(123,104,238,0.8),
+                    0 0 35px rgba(204,51,255,0.6),
+                    0 0 50px rgba(153,51,204,0.4); 
+    } 
+}
+
+.description { 
+    font-size:1.05rem; 
+    color:rgba(255,255,255,0.95); 
+    margin-bottom:50px; 
+    line-height:1.7; 
+    background: rgba(31, 17, 53, 0.8); 
+    padding:25px; 
+    border-radius:20px; 
+    border:2px solid rgba(255,255,255,0.2); 
+    box-shadow:0 20px 50px rgba(0,0,0,0.5);
+    position:relative;
+    overflow:hidden;
+}
+
+.description::before {
+    content:'';
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:100%;
+    height:100%;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    animation:shine 12s infinite;
+}
+
+@keyframes shine {
+    100% { left:100%; }
+}
+
+.button-container { 
+    display:flex; 
+    flex-direction:column; 
+    gap:20px; 
+    align-items:center; 
+    width:100%;
+    max-width:320px;
+}
+
+.home-btn { 
+    color:white; 
+    border:none; 
+    padding:18px 35px; 
+    font-size:1.15rem; 
+    font-weight:700; 
+    border-radius:50px; 
+    cursor:pointer; 
+    width:100%; 
+    display:flex; 
+    justify-content:center; 
+    align-items:center; 
+    gap:15px; 
+    box-shadow:0 12px 35px rgba(0,0,0,0.5); 
+    transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position:relative;
+    overflow:hidden;
+    z-index:1;
+    -webkit-tap-highlight-color:transparent;
+}
+
+.home-btn::before {
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(255,255,255,0.15);
+    opacity:0;
+    transition:opacity 0.3s;
+}
+
+.home-btn:active::before {
+    opacity:1;
+}
+
+.play-btn { 
+    background: linear-gradient(135deg,#ff6b9d,#c77dff); 
+}
+
+.coach-btn { 
+    background: linear-gradient(135deg,#7b68ee,#4169e1); 
+}
+
+.home-btn:hover { 
+    transform:translateY(-5px) scale(1.02); 
+    box-shadow:0 18px 40px rgba(0,0,0,0.6);
+}
+
+.home-btn::after { 
+    content:''; 
+    position:absolute; 
+    top:0; 
+    left:-100%; 
+    width:100%; 
+    height:100%; 
+    background: linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent); 
+    transition:0.6s;
+}
+
+.home-btn:hover::after { 
+    left:100%; 
+}
+
+/* 页面通用样式 */
+.info-screen, .coach-list-screen, .coach-detail-screen { 
+    width:100vw; 
+    height:100vh; 
+    position:fixed; 
+    top:0; 
+    left:0; 
+    background:#000; 
+    padding:20px; 
+    opacity:0; 
+    pointer-events:none; 
+    overflow-y:auto; 
+    transition:opacity 0.4s; 
+    z-index:100; 
+    -webkit-overflow-scrolling:touch;
+}
+
+.info-screen.active, .coach-list-screen.active, .coach-detail-screen.active { 
+    opacity:1; 
+    pointer-events:all; 
+}
+
+.back-btn { 
+    position:fixed; 
+    top:30px; 
+    left:25px; 
+    width:50px; 
+    height:50px; 
+    border-radius:50%; 
+    background:rgba(255,255,255,0.2); 
+    color:white; 
+    border:2px solid rgba(255,255,255,0.3); 
+    display:flex; 
+    justify-content:center; 
+    align-items:center; 
+    cursor:pointer; 
+    z-index:101; 
+    transition:all 0.3s;
+    -webkit-tap-highlight-color:transparent;
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+
+.back-btn:active {
+    transform:scale(0.9);
+}
+
+.back-btn:hover { 
+    transform:scale(1.1); 
+    background: rgba(255,255,255,0.3); 
+}
+
+/* 玩法介绍页面样式 */
+.info-content {
+    max-width:600px;
+    margin:80px auto 40px;
+    padding:20px;
+}
+
+.info-title {
+    font-size:2rem;
+    font-weight:900;
+    color:#fff;
+    margin-bottom:30px;
+    text-align:center;
+    background:linear-gradient(135deg,#ff6b9d,#c77dff);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    text-shadow:0 5px 20px rgba(199,125,255,0.3);
+}
+
+.info-text {
+    font-size:1rem;
+    line-height:1.7;
+    color:rgba(255,255,255,0.9);
+    margin-bottom:20px;
+    padding:20px;
+    background:rgba(255,255,255,0.05);
+    border-radius:15px;
+    border-left:4px solid #7b68ee;
+}
+
+.info-text strong {
+    color:#ff8fab;
+    font-weight:700;
+}
+
+.package {
+    margin:25px 0;
+    padding:25px;
+    background:rgba(123,104,238,0.15);
+    border-radius:20px;
+    border:2px solid rgba(123,104,238,0.3);
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+.package-title {
+    font-size:1.3rem;
+    color:#ff66cc;
+    margin-bottom:15px;
+    font-weight:800;
+}
+
+.package-desc {
+    font-size:1rem;
+    line-height:1.7;
+    color:rgba(255,255,255,0.9);
+}
+
+.notice {
+    padding:20px;
+    background:rgba(255,100,100,0.15);
+    border-radius:15px;
+    border:2px solid rgba(255,100,100,0.3);
+    margin:20px 0;
+    color:#ff9999;
+    font-size:1rem;
+}
+
+/* 助教列表样式 */
+.coach-list-header {
+    padding:80px 0 25px;
+    text-align:center;
+}
+
+.coach-list-title {
+    font-size:2rem;
+    font-weight:900;
+    color:#fff;
+    margin-bottom:15px;
+    background:linear-gradient(135deg,#b19cd9,#7b68ee);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    text-shadow:0 5px 20px rgba(123,104,238,0.4);
+}
+
+.coach-list-subtitle {
+    font-size:0.95rem;
+    color:rgba(255,255,255,0.6);
+    max-width:400px;
+    margin:0 auto;
+    line-height:1.5;
+}
+
+.coach-list-container { 
+    margin-top:25px; 
+    display:flex; 
+    flex-direction:column; 
+    gap:15px; 
+    max-width:600px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.coach-list-item { 
+    display:flex; 
+    align-items:center; 
+    padding:20px; 
+    cursor:pointer; 
+    background:rgba(255,255,255,0.1); 
+    border-radius:20px; 
+    transition:all 0.3s;
+    -webkit-tap-highlight-color:transparent;
+    border:2px solid rgba(255,255,255,0.15);
+    box-shadow:0 12px 30px rgba(0,0,0,0.3);
+}
+
+.coach-list-item:active {
+    transform:scale(0.98);
+}
+
+.coach-list-item:hover { 
+    background:rgba(255,255,255,0.15); 
+    transform:translateX(8px); 
+    border-color:rgba(255,255,255,0.25);
+    box-shadow:0 18px 35px rgba(0,0,0,0.4);
+}
+
+.coach-name-circle { 
+    width:60px; 
+    height:60px; 
+    border-radius:50%; 
+    margin-right:20px; 
+    display:flex; 
+    align-items:center; 
+    justify-content:center; 
+    overflow:hidden;
+    flex-shrink:0;
+    border:3px solid rgba(255,255,255,0.2);
+    box-shadow:0 10px 25px rgba(0,0,0,0.5);
+    transition:all 0.3s;
+}
+
+.coach-list-item:hover .coach-name-circle {
+    border-color:rgba(255,255,255,0.4);
+    transform:scale(1.08);
+}
+
+.coach-avatar-img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.coach-info-list { 
+    flex:1; 
+    min-width:0;
+}
+
+.coach-name-text { 
+    font-size:1.3rem; 
+    font-weight:800; 
+    margin-bottom:8px; 
+    color:#fff;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.coach-basic-info { 
+    font-size:0.9rem; 
+    color:rgba(255,255,255,0.7); 
+    display:flex; 
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.list-arrow {
+    color:rgba(255,255,255,0.4);
+    font-size:1.4rem;
+    margin-left:15px;
+    flex-shrink:0;
+    transition:all 0.3s;
+}
+
+.coach-list-item:hover .list-arrow {
+    color:rgba(255,255,255,1);
+    transform:translateX(8px);
+}
+
+/* 助教详情样式 */
+.coach-detail-container { 
+    max-width:100%; 
+    margin:80px auto 30px; 
+    background: rgba(15,15,26,0.9); 
+    border-radius:25px; 
+    overflow:hidden; 
+    padding:25px; 
+    border:2px solid rgba(255,255,255,0.2);
+    box-shadow:0 25px 60px rgba(0,0,0,0.6);
+}
+
+.coach-detail-name { 
+    font-size:2.2rem; 
+    font-weight:900; 
+    margin-bottom:20px; 
+    color:#fff;
+    line-height:1.2;
+    text-align:center;
+    background:linear-gradient(135deg,#ff6b9d,#c77dff);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+.coach-detail-stats {
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:15px;
+    margin-bottom:25px;
+    background:rgba(255,255,255,0.08);
+    padding:20px;
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,0.15);
+}
+
+.stat-item {
+    text-align:center;
+}
+
+.stat-label {
+    font-size:0.85rem;
+    color:rgba(255,255,255,0.6);
+    margin-bottom:8px;
+    font-weight:500;
+}
+
+.stat-value {
+    font-size:1.3rem;
+    font-weight:800;
+    color:#fff;
+}
+
+.coach-detail-intro { 
+    font-size:1.05rem; 
+    line-height:1.7; 
+    color:rgba(255,255,255,0.9); 
+    margin-bottom:30px; 
+    padding:25px;
+    background:rgba(255,255,255,0.05);
+    border-radius:16px;
+    border-left:5px solid #7b68ee;
+}
+
+/* 大图展示 - 每行一张 */
+.photo-gallery { 
+    display:flex; 
+    flex-direction:column; 
+    gap:20px; 
+    width:100%;
+}
+
+.photo-item { 
+    width:100%; 
+    height:350px; /* 更大的高度 */
+    border-radius:20px; 
+    background-size:cover; 
+    background-position:center; 
+    background-repeat:no-repeat;
+    cursor:pointer; 
+    transition:all 0.3s;
+    position:relative;
+    overflow:hidden;
+    -webkit-tap-highlight-color:transparent;
+    box-shadow:0 15px 35px rgba(0,0,0,0.4);
+    border:2px solid rgba(255,255,255,0.1);
+}
+
+.photo-item::after {
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background:rgba(0,0,0,0.2);
+    opacity:0;
+    transition:opacity 0.3s;
+}
+
+.photo-item:hover::after {
+    opacity:1;
+}
+
+.photo-item::before {
+    content:'🔍 点击放大';
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    color:white;
+    font-size:1.2rem;
+    font-weight:600;
+    z-index:2;
+    opacity:0;
+    transition:opacity 0.3s;
+    background:rgba(0,0,0,0.5);
+    padding:12px 25px;
+    border-radius:30px;
+    border:2px solid rgba(255,255,255,0.2);
+}
+
+.photo-item:hover::before {
+    opacity:1;
+}
+
+.photo-item:active {
+    transform:scale(0.98);
+}
+
+.photo-item:hover { 
+    transform:scale(1.02); 
+    box-shadow:0 20px 40px rgba(0,0,0,0.5);
+    border-color:rgba(255,255,255,0.2);
+}
+
+/* 图片放大模态框 */
+.image-modal { 
+    display:none; 
+    position:fixed; 
+    top:0; 
+    left:0; 
+    width:100%; 
+    height:100%; 
+    background:rgba(0,0,0,0.98); 
+    justify-content:center; 
+    align-items:center; 
+    z-index:1000; 
+    padding:15px;
+}
+
+.image-modal.active { 
+    display:flex; 
+    animation:fadeInModal 0.3s ease;
+}
+
+@keyframes fadeInModal {
+    from { opacity:0; }
+    to { opacity:1; }
+}
+
+.modal-content {
+    position:relative;
+    width:100%;
+    max-width:700px;
+    max-height:85vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.modal-image { 
+    width:100%; 
+    height:auto; 
+    max-height:70vh;
+    border-radius:20px; 
+    box-shadow:0 30px 60px rgba(0,0,0,0.8);
+    object-fit:contain;
+}
+
+.close-modal { 
+    position:absolute; 
+    top:-60px; 
+    right:0; 
+    width:50px; 
+    height:50px; 
+    background:rgba(255,255,255,0.25); 
+    display:flex; 
+    justify-content:center; 
+    align-items:center; 
+    cursor:pointer; 
+    font-size:2rem; 
+    border-radius:50%;
+    -webkit-tap-highlight-color:transparent;
+    transition:all 0.3s;
+    border:2px solid rgba(255,255,255,0.3);
+}
+
+.close-modal:active {
+    transform:scale(0.9);
+}
+
+.close-modal:hover { 
+    background:rgba(255,255,255,0.35); 
+    transform:rotate(90deg);
+}
+
+/* 响应式设计 */
+@media (max-width:480px){
+    .main-title { font-size:2.5rem; }
+    .subtitle { font-size:1.4rem; }
+    .description { font-size:1rem; padding:20px; }
+    .home-btn { padding:16px 30px; font-size:1.1rem; }
+    .coach-detail-stats { grid-template-columns:repeat(2, 1fr); }
+    .photo-item { height:300px; } /* 手机端也保持大图 */
+    .coach-list-title { font-size:1.8rem; }
+    .coach-detail-name { font-size:1.9rem; }
+    .package { padding:20px; }
+    .package-title { font-size:1.2rem; }
+}
+
+@media (min-width:768px){
+    .home-screen { padding:40px; }
+    .title-container { max-width:600px; }
+    .main-title { font-size:3.5rem; }
+    .subtitle { font-size:1.8rem; }
+    .description { font-size:1.1rem; }
+    .home-btn { width:320px; }
+    .coach-list-container { max-width:600px; }
+    .coach-detail-container { max-width:700px; }
+    .photo-item { height:400px; } /* 桌面端更大的图片 */
+    .info-content { max-width:700px; }
+}
+
+/* 横屏优化 */
+@media (max-height: 600px) and (orientation: landscape) {
+    .home-screen { padding:15px; }
+    .title-container { margin-top:20px; }
+    .description { margin-bottom:25px; padding:15px; }
+    .button-container { gap:12px; }
+}
+</style>
+</head>
+<body>
+<!-- 星空背景 -->
+<div id="starfield"></div>
+
+<!-- 首页 -->
+<div class="home-screen active" id="homeScreen">
+    <div class="title-container">
+        <h1 class="main-title">心动私人影院</h1>
+        <p class="subtitle">助教陪玩体验馆</p>
+        <p class="description">沉浸式观影体验，专属于你的电影时光。专业助教陪伴，打造难忘娱乐体验。</p>
+        <div class="button-container">
+            <button class="home-btn play-btn" id="playBtn"><i class="fas fa-play-circle"></i> 玩法介绍</button>
+            <button class="home-btn coach-btn" id="coachBtn"><i class="fas fa-user-friends"></i> 助教资料</button>
+        </div>
+    </div>
+</div>
+
+<!-- 玩法介绍页面 -->
+<div class="info-screen" id="infoScreen">
+    <button class="back-btn" id="backBtn"><i class="fas fa-arrow-left"></i></button>
+    
+    <div class="info-content">
+        <h2 class="info-title">💗COSPLAY日系女高私影小屋💗</h2>
+        
+        <p class="info-text"><strong>真人真照拒绝照骗</strong> 私影·互动·助教·换装·伴游。（营业时间：午13：00--晨02：00）</p>
+        
+        <p class="info-text"><strong>💞本店主打00后学妹 年轻漂亮 jk助教 情感陪伴 体验初恋 甜蜜热恋的感觉💞</strong></p>
+        
+        <p class="info-text">在店美少女身材好 涵养高 颜值爆表 乖巧听话 积极配合。<br>
+        😍御姐 萝莉 清纯 性感类型都有⌯>ᴗo⌯ .ᐟ.ᐟ根据自己喜好 挑选心意💝小姐姐 更换衣服款式😚（到店请提前预约）</p>
+        
+        <p class="info-text"><strong>⬆️所有小姐姐均可到店海选🤗🤗🤗</strong></p>
+        
+        <div class="notice">
+            <strong>⚠️本店无其他隐形费用⚠️</strong><br>
+            <strong>⚠️注意：本店无92 95 98等涉黄服务⚠️</strong>
+        </div>
+        
+        <p class="info-text"><strong>＜充值会员享福利>＜到店了解有惊喜></strong></p>
+        
+        <p class="info-text"><strong>🎮桌游🎬电影➕🥂零食饮料无限畅饮😋</strong></p>
+        
+        <div class="package">
+            <div class="package-title">💕398💟S级女仆套餐[60分钟]</div>
+            <div class="package-desc">一对一影院MM陪伴 跟着小姐姐深度接触 零距离感受小姐姐滑嫩肌肤。 ˃̶͈ ꇴ ˂̶͈ <br>
+            搂着身软怀香小姐姐一起观影 膝枕~躺小姐姐腿上 适当时候可以给您揉揉肩按头部放松放松 🉑亲脸 🉑摸🦵</div>
+        </div>
+        
+        <div class="package">
+            <div class="package-title">💕598💟SS级女仆套餐[60分钟]</div>
+            <div class="package-desc">在S级套餐基础上 增加🉑亲👄🉑摸🐻 🉑骑乘式搂搂抱抱 且妹妹会主动抱着你亲 骑乘式坐在你身上‖进入热恋中.童话般世界『还可以根据你的要求 更换制服 白丝 网丝 黑丝☺️ 且能手撕丝袜 妹妹会主动配合 丝袜🉑带走 带走妹妹的芬香😘』</div>
+        </div>
+        
+        <div class="package">
+            <div class="package-title">💕799💟梦幻SSS级女仆套餐[60分钟]</div>
+            <div class="package-desc">在SS级基础上 增加🉑摸🐻亲🐻🉑👅吻🉑拍打🍑臀<br>
+            ②小时🉑赠送真🈳 🉑到店咨询 🈶什么要求都可以和妹妹聊聊 在合理的情况下 妹妹会尽量满足你的意愿 让你快乐加倍~原有不一样的全新体验~</div>
+        </div>
+        
+        <div class="package">
+            <div class="package-title">💕【热恋女神】998💟SSR级助教</div>
+            <div class="package-desc">服务项目再升级 除了以上服务外 还提供真🈳服务 🉑搁👙👙👙探索小🌺园 小姐姐服务更加火辣热情🥵也🉑轻微SM🉑抚摸 拍打🍑臀 真🈳视觉效果达到满分！！快乐超级加倍~效果拉满~</div>
+        </div>
+        
+        <div class="package">
+            <div class="package-title">【甜蜜约会】1598💟甜妹同城陪玩套餐[2小时]包含798套餐所有项目</div>
+            <div class="package-desc">『外派需提前预留定金』<br>
+            风月情浓 琴瑟在御。<br>
+            与她携手出游 专属二人世界 打卡宝藏小店共尝美食 海边散步等 共同解锁城市地标 一起玩转精彩世界。🉑密室 🉑抓娃娃 🉑吃饭 🉑酒吧 🉑剧本杀 🉑KTV 🉑手牵手逛街 🉑商业接待 🉑跨城约会……</div>
+        </div>
+        
+        <div class="notice">
+            <strong>☝☝【以上项目确认助教后 超过十分钟不予退款】</strong><br>
+            🙏本店承诺没有任何附加费用及隐形费用🙏<br>
+            ⚠️助教小姐姐真真实实00后小学妹 🈚️任何疑问⚠️<br>
+            本店不涉黄 不提供任何违法服务⚠️请自重！！<br>
+            〔环境安静 舒适 高档 安全保障 独立包间💞给你提供最温馨浪漫的服务~😝〕
+        </div>
+    </div>
+</div>
+
+<!-- 助教列表页面 -->
+<div class="coach-list-screen" id="coachListScreen">
+    <button class="back-btn" id="coachListBackBtn"><i class="fas fa-arrow-left"></i></button>
+    <div style="max-width:600px; margin:0 auto;">
+        <div class="coach-list-header">
+            <h2 class="coach-list-title">私影助教陪玩体验馆</h2>
+            <p class="coach-list-subtitle">选择您喜欢的助教，开启专属体验</p>
+        </div>
+        <div class="coach-list-container" id="coachListContainer"></div>
+    </div>
+</div>
+
+<!-- 助教详情页面 -->
+<div class="coach-detail-screen" id="coachDetailScreen">
+    <button class="back-btn" id="coachDetailBackBtn"><i class="fas fa-arrow-left"></i></button>
+    <div class="coach-detail-container" id="coachDetailContainer"></div>
+</div>
+
+<!-- 图片放大模态框 -->
+<div class="image-modal" id="imageModal">
+    <div class="modal-content">
+        <span class="close-modal" id="closeModal">&times;</span>
+        <img class="modal-image" id="modalImage" src="" alt="放大图片">
+    </div>
+</div>
+
+<script>
+// 创建优雅低调的星空粒子动画
+function createStarfield() {
+    const starfield = document.getElementById('starfield');
+    starfield.innerHTML = '';
+    
+    // 创建小而密的星星 - 1200个
+    const starsCount = 1200;
+    
+    for(let i = 0; i < starsCount; i++) {
+        let star = document.createElement('div');
+        
+        // 随机大小 - 大部分是小星星
+        const sizeType = Math.random();
+        let sizeClass = '';
+        if (sizeType < 0.7) { // 70% 微小星星
+            sizeClass = 'tiny';
+        } else if (sizeType < 0.9) { // 20% 小星星
+            sizeClass = 'small';
+        } else { // 10% 中星星
+            sizeClass = 'medium';
+        }
+        
+        star.classList.add('star', sizeClass);
+        
+        // 随机闪烁类型
+        const blinkType = Math.random();
+        if (blinkType < 0.3) {
+            star.classList.add('fast'); // 30% 快速闪烁
+        } else if (blinkType < 0.6) {
+            star.classList.add('slow'); // 30% 慢速闪烁
+        } else {
+            star.classList.add('blink'); // 40% 正常闪烁
+        }
+        
+        // 随机位置
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        
+        // 随机动画参数
+        const delay = Math.random() * 10;
+        const duration = Math.random() * 4 + 2;
+        
+        star.style.top = posY + '%';
+        star.style.left = posX + '%';
+        star.style.animationDelay = delay + 's';
+        star.style.setProperty('--duration', duration + 's');
+        
+        starfield.appendChild(star);
+    }
+    
+    // 创建流星 - 5个不同轨道的流星，间隔时间较长
+    for(let i = 1; i <= 5; i++) {
+        let shootingStar = document.createElement('div');
+        shootingStar.classList.add('shooting-star', `track-${i}`);
+        
+        // 随机起始位置
+        const startX = Math.random() * 100;
+        const startY = Math.random() * 100;
+        
+        shootingStar.style.left = startX + '%';
+        shootingStar.style.top = startY + '%';
+        
+        // 随机参数
+        const duration = Math.random() * 2 + 2.5; // 2.5-4.5秒
+        const opacity = Math.random() * 0.4 + 0.6; // 0.6-1.0
+        
+        shootingStar.style.opacity = opacity;
+        shootingStar.style.animationDuration = duration + 's';
+        
+        starfield.appendChild(shootingStar);
+    }
+}
+
+// 页面切换控制
+const homeScreen = document.getElementById('homeScreen');
+const infoScreen = document.getElementById('infoScreen');
+const coachListScreen = document.getElementById('coachListScreen');
+const coachDetailScreen = document.getElementById('coachDetailScreen');
+
+// 完整的7个助教数据（新增了七七）
+const coaches = [
+    {
+        id: 1,
+        name: "小玖",
+        age: "20岁",
+        height: "165cm",
+        weight: "50kg",
+        size: "B",
+        intro: "在校女大学生，温柔性格好，不抽烟无纹身，本人比照片好看。待人友好，有耐心具有亲和力，善于与人沟通，活泼开朗、乐观向上，温柔体贴，甜美可爱待人诚恳的小姐姐一枚～",
+        photos: [
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp3XyNx5/LiySpxowE0yeWXwBdXN*SajpNWEaSBDmqtsghlgacPXhtCQcY3AUUvmiUuaiNFnAE6jGPBjSZnNaKcmK7QV*2HzzmFqRmHkDJxmdxSjy30c!/b&bo=kgTfBZIE3wUHByY!&rf=viewer_4",
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp3XyNx5/LiySpxowE0yeWXwBdXN*SYiQ7JBea2lngZ3K7mx2HioQSiy3pwHir2Pf*C3cLCGIHgCcpAUCCxKXSmKexZ0oYM3*qRVEp2A8Bo1YhPFYAcg!/b&bo=hAGyAgAAAAABFwU!&rf=viewer_4",
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp3XyNx5/LiySpxowE0yeWXwBdXN*SdBpSjAof8XYaSyt*TYXTqhN3tiTccecrBb7PDDinBhp0wZ2x2StVV1cnGy7VI5bzFHPBS*YsV4PS2EeG.KBDFo!/b&bo=4wPUBeMD1AUHJwY!&rf=viewer_4",
+           "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp3XyNx5/LiySpxowE0yeWXwBdXN*SZURx.we2JZhBrjV4VYBXcM0jiOEA6LxHYmXSCPHpvz6JaRCxpa1ehQxJ.K0LExFnKk846Q7S6fNp56*dLIEKEs!/b&bo=RgSGBUYEhgUHFzY!&rf=viewer_4", "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp3XyNx5/LiySpxowE0yeWXwBdXN*SWAdROG7FuwWNyd0FZSAPRv*wNTYUggw9canaBnuX4jvKTnbos15u.cbyA3I0h4zy8zCtO87GkHnS2EMUyJINPg!/b&bo=kgRUB5IEVAcHFzY!&rf=viewer_4"
+        ]
+    },
+    {
+        id: 2,
+        name: "可可",
+        age: "19岁",
+        height: "165cm",
+        weight: "51kg",
+        size: "C",
+        intro: "大一学生妹，长相甜美，刚接触私影行业，配合度很好，特别温柔听话，咱的需求基本都可以满足，身材巨好，该瘦的地方瘦，该胖的地方胖～性格开朗活泼，细心体贴。体验完绝对不后悔，绝对想加时",
+        photos: [
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp0C4At4/LiySpxowE0yeWXwBdXN*Se897msUmenjk9UV0XCK6NHqdHsNSua2kyw.ZUaluPLZdW2aQ5cs7rBF2PXmVhadsfyMfiwl6udLV6laaQvyINA!/b&bo=OASABwAAAAABF4s!&rf=viewer_4",
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp0C4At4/LiySpxowE0yeWXwBdXN*Sb9iy24XTBDZDc165.CsrNRPonuRj234no4rVmVnWqXwR.OaMkqvdagqrKLMttbaTyOXOPhEDt4iw4RmUJsbfW4!/b&bo=3wPVA98D1QMBByA!&rf=viewer_4",
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp0C4At4/LiySpxowE0yeWXwBdXN*SUnliiW6*BPkgtz*0NuDgZ4Z19sPnmLZ59L98bXlx*ZlLgDqKTPN6uHyX*Wm3MEz6rHv6UqWEQeDHdM8a2JBBfI!/b&bo=dAPEBQAAAAABF4Y!&rf=viewer_4",
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp0C4At4/LiySpxowE0yeWXwBdXN*SZ8obyxPuw4Rwxtn72WwuEzo2EkruenJSCrDdm9u9OFn945TFj4Y3YosluMrTR45jSBKnM9nxKRnYvDH8ttdOd0!/b&bo=AAXQAgAAAAABF.c!&rf=viewer_4"
+        ]
+    },
+    {
+        id: 3,
+        name: "小琪",
+        age: "18岁",
+        height: "178cm",
+        weight: "55kg",
+        size: "B",
+        intro: "模特身材，气质佳，长相非常漂亮，情绪价值高，在附近上学没法露脸。拥有模特般的身材和气质，擅长营造高级感氛围，服务专业周到。",
+        photos: [
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp2LxZYk/LiySpxowE0yeWXwBdXN*SWPm7Sse22Rs3OGWM3I2LSOb0BlHm2W7fhq.amN8hcg4rD4Hw0OD0KCZAyKzpUXWIJBdFWYqF9iJ1FP01kLZCw8!/b&bo=kgT3BZIE9wUHByY!&rf=viewer_4",
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp2LxZYk/LiySpxowE0yeWXwBdXN*SfiSthq72YryXoSEzWhC*UV47vnZ8uiN8CHKb9pV.8ucwsjUvOvA24B*q6L9meK7enPG2SkHC2BSwnwcCFGHiPE!/b&bo=oAXSCKAF0ggHFzY!&rf=viewer_4",
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp2LxZYk/LiySpxowE0yeWXwBdXN*SU0XzVkmLWibEm647eI0Pi2pXma6F4Irelds9NjjdLnVDabEZyiC0sa6*F3eh4ZveWaGEfK3swV88iPHIVqJfig!/b&bo=OATIBjgEyAYHFzY!&rf=viewer_4",
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp2LxZYk/LiySpxowE0yeWXwBdXN*SUZJqhxkRH.YJCleitJUkgBuRziDJeaHTH66k3gQJTajeOi6dJCvoHBn4EPi1LVrpwnukNE1nNRaQJITX0ujgIA!/b&bo=oAX8B6AF*AcHFzY!&rf=viewer_4"
+        ]
+    },
+    {
+        id: 4,
+        name: "婷婷",
+        age: "19岁",
+        height: "162cm",
+        weight: "51kg",
+        size: "B",
+        intro: "刚入行的新人，外向活泼开朗，风格百变，可盐可甜可御姐，吃喝玩乐的小行家，身材高挑，肌肤柔软细腻紧致，积极提供情绪价值，带您回忆起初恋的感觉，喜欢新人的哥哥千万不要错过喔～",
+        photos: [
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp1VD4kn/LiySpxowE0yeWXwBdXN*SdQjbDZYb92.Vl5.1pmsPBgPxDvPMY.fBn*57uhhp2roHI4OB9NHcY0KK6DvFazSF8sSDx15dxmxMrbWit7KzyM!/b&bo=vgOIBL4DiAQBByA!&rf=viewer_4",
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp1VD4kn/LiySpxowE0yeWXwBdXN*SQq0vaZ5VMUvMIc1AlA*2cLchE.btZB7fRlL.N*96Qx6BNs4GstR3k0GZRXj9Lg6meHF6VXtNI5XrBZfuwO8gtw!/b&bo=qAOjBKgDowQBFzA!&rf=viewer_4",
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp1VD4kn/LiySpxowE0yeWXwBdXN*Sa9AfJJflCN3*Zb6DRtZYt6BI2CMvam8SEgY4.lUJ*LpaTWvcAg0jFCPG8xdUYGD6wnYt.9Ib5cSkTBdJD4K3go!/b&bo=0AIABQAAAAABF.c!&rf=viewer_4",
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp1VD4kn/LiySpxowE0yeWXwBdXN*SQIMQSjRVJmygQ5QnUEXuvIwhBuYueWcNEaQIlVUijMqbZRyXepjFwYISLArlgCqFu2DlW8Ie.g3leTBRAE5nKo!/b&bo=NgQ6BQAAAAABFz0!&rf=viewer_4"
+        ]
+    },
+    {
+        id: 5,
+        name: "甜甜",
+        age: "20岁",
+        height: "165cm",
+        weight: "46kg",
+        size: "B",
+        intro: "待人友好，有耐心具有亲和力，善于与人沟通，活泼开朗、乐观向上，温柔体贴，甜美可爱待人诚恳的小姐姐一枚～擅长照顾人，能给客人带来被呵护的感觉，体验温馨浪漫的时光。",
+        photos: [
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp37eazB/LiySpxowE0yeWXwBdXN*SUoJ7EjqWrgkWn*TFWcQLYVJ6C*XTgTptk3AhpGLD8SlPuKf1gQIC7o7RgxEnuGBttqDPZ03vbbBSL15PmHiFJo!/b&bo=mwRlBZsEZQUHByY!&rf=viewer_4",
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp37eazB/LiySpxowE0yeWXwBdXN*SeXuMOej4746DCF9ghCL6EObenKnV3V0D1NQ735yTFEt7KdBXyOK0Vz58WBBmBz2syVplCo1bAq6cS0Lf8sFwMk!/b&bo=ZgR1BWYEdQUBFzA!&rf=viewer_4",
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp37eazB/LiySpxowE0yeWXwBdXN*Se.Yu0a9Y1AudjtNtdejRCu0xQERAxtR6SAee0g8d5UEitOcQ9nGVz*weLVTT6GG84t*SEu4uBaq8YHrHaEa9PU!/b&bo=dASpBXQEqQUBFzA!&rf=viewer_4",
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp37eazB/LiySpxowE0yeWXwBdXN*SbZO0.P7pq12oQbOzLu*ZBQxAlNbx3kNvDG5.YQSu4uZDXcC.v9e1cEJvXHjY2m.MbinpC0vOKNyXAPEU*QNw84!/b&bo=MgP3AzID9wMBFzA!&rf=viewer_4"
+        ]
+    },
+    {
+        id: 6,
+        name: "糖糖",
+        age: "18岁",
+        height: "165cm",
+        weight: "50kg",
+        size: "B",
+        intro: "古灵精怪的可爱女生，性格调皮有趣。擅长制造惊喜和趣味互动，能让客人体验不一样的欢乐时光。待人友好，有耐心具有亲和力，善于与人沟通，活泼开朗、乐观向上，温柔体贴。",
+        photos: [
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp0Fm4n4/LiySpxowE0yeWXwBdXN*SZkOSH55MiZ1mxum6MLmKJuR57SImDCO2AFEFGNm4m*gmjLzUUMQJhtnl0afWeQLuDOvoaXsGOR7RwJwrr6bpDQ!/b&bo=OASgBTgEoAUBByA!&rf=viewer_4",
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp0Fm4n4/LiySpxowE0yeWXwBdXN*ScIvvZMN9dsMEh56iG9nasleSl5GjcZa5DacNLWAgqC8AjSwRRvuoPHnjBINRT6deKrrRQ6A5KXLVJA35OlORx0!/b&bo=OAQ6AzgEOgMBFzA!&rf=viewer_4",
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp0Fm4n4/LiySpxowE0yeWXwBdXN*SfJaXK*FSX*VFs2Hcq1ixZxXrsaTbYQVAbVx.Whw8vQKrgefo*LXlM8DJWnlB70MRYeVG5bxPL.1gp0Pd5Qmelg!/b&bo=iAOqBIgDqgQBFzA!&rf=viewer_4",
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp0Fm4n4/LiySpxowE0yeWXwBdXN*SeDPVfLcYyE06phoQfD*n2ppY7FcwmSnpQmw3n3UBdpRNsBO5fbGnDs9xpxXjdEr7vJ*P9ZfZ3Rwpckg6WA6Bq4!/b&bo=OASgBTgEoAUHFzY!&rf=viewer_4"
+        ]
+    },
+    {
+        id: 7,
+        name: "七七",
+        age: "18岁",
+        height: "170cm",
+        weight: "50kg",
+        size: "D",
+        intro: "身材巨好，喜欢这种身材的无脑冲！情绪价值很到位，很听话，性格温柔体贴，特别会照顾人，懂得如何让客人感到舒适和放松，是追求完美身材体验的不二选择。",
+        photos: [
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp2pUM9e/LiySpxowE0yeWXwBdXN*Sf8sAwLNndmLII8MRpMKMGG*1h*xdjsnxri8d63xJrpd1Kz4SxZh69i6BeZEBx2Al3ekVkJFMd5dNSKfYZXu9P4!/b&bo=OASABzgEgAcHFzY!&rf=viewer_4",
+          "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp2pUM9e/LiySpxowE0yeWXwBdXN*Sesx0bv9IhD56ts4Nn3aLgsOTA3FlvWL*.inA*VCiWbAHbjCx7cRQxmVbqavKDQG9O0hgkm6J9KwH6u5*NO9YZs!/b&bo=OASABzgEgAcHFzY!&rf=viewer_4",
+          "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp2pUM9e/LiySpxowE0yeWXwBdXN*SfkaqR4WAlQtTuuKIqG5JoRTwTLD*Bnw9.XlwT.6.*rpHpSaYkB*zQyTP4qrZzP1XAyqk5i9.H.1LtiSH4yWsC8!/b&bo=oAUACqAFAAoHFzY!&rf=viewer_4",
+            "http://photonjmaz.photo.store.qq.com/psc?/V52nJvBZ3KGN022ndDf12uREVp2pUM9e/LiySpxowE0yeWXwBdXN*SZVhaOpZz18jjcDfoo3OfTbvoe2EbLTj9H88VlaBqRITwJhnDvMWbjxf*bva4jVlNMAk3Dk2UVusRwenU1xnXpI!/b&bo=AQQuBwEELgcHFzY!&rf=viewer_4"
+        ]
+    }
+];
+
+// 动态生成助教列表
+function generateCoachList() {
+    const coachListContainer = document.getElementById('coachListContainer');
+    coachListContainer.innerHTML = '';
+    
+    coaches.forEach(coach => {
+        // 使用第一张照片作为头像
+        const avatarUrl = coach.photos[0];
+        
+        const item = document.createElement('div');
+        item.className = 'coach-list-item';
+        item.innerHTML = `
+            <div class="coach-name-circle">
+                <img src="${avatarUrl}" alt="${coach.name}" class="coach-avatar-img" loading="lazy">
+            </div>
+            <div class="coach-info-list">
+                <div class="coach-name-text">${coach.name}</div>
+                <div class="coach-basic-info">
+                    <span>年龄：${coach.age}</span>
+                    <span>身高：${coach.height}</span>
+                    <span>体重：${coach.weight}</span>
+                    <span>罩杯：${coach.size}</span>
+                </div>
+            </div>
+            <div class="list-arrow"><i class="fas fa-chevron-right"></i></div>
+        `;
+        
+        // 点击事件 - 显示助教详情
+        item.addEventListener('click', () => {
+            showCoachDetail(coach);
+        });
+        
+        item.addEventListener('touchstart', () => {
+            item.style.transform = 'scale(0.98)';
+        });
+        
+        item.addEventListener('touchend', () => {
+            item.style.transform = '';
+        });
+        
+        coachListContainer.appendChild(item);
+    });
+}
+
+// 显示助教详情
+function showCoachDetail(coach) {
+    const container = document.getElementById('coachDetailContainer');
+    
+    // 生成照片HTML - 每行一张大图
+    const photosHTML = coach.photos.map(photo => 
+        `<div class="photo-item" style="background-image:url('${photo}')" onclick="showImageModal('${photo}')"></div>`
+    ).join('');
+    
+    container.innerHTML = `
+        <div class="coach-detail-name">${coach.name}</div>
+        <div class="coach-detail-stats">
+            <div class="stat-item">
+                <div class="stat-label">年龄</div>
+                <div class="stat-value">${coach.age}</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">身高</div>
+                <div class="stat-value">${coach.height}</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">体重</div>
+                <div class="stat-value">${coach.weight}</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">罩杯</div>
+                <div class="stat-value">${coach.size}</div>
+            </div>
+        </div>
+        <div class="coach-detail-intro">${coach.intro}</div>
+        <div class="photo-gallery" id="photoGallery">${photosHTML}</div>
+    `;
+    
+    coachListScreen.classList.remove('active');
+    coachDetailScreen.classList.add('active');
+}
+
+// 图片模态框控制
+const imageModal = document.getElementById('imageModal');
+const modalImage = document.getElementById('modalImage');
+const closeModal = document.getElementById('closeModal');
+
+function showImageModal(imageUrl) {
+    modalImage.src = imageUrl;
+    imageModal.classList.add('active');
+}
+
+closeModal.addEventListener('click', () => {
+    imageModal.classList.remove('active');
+});
+
+imageModal.addEventListener('click', (e) => {
+    if (e.target === imageModal) {
+        imageModal.classList.remove('active');
+    }
+});
+
+// 页面切换功能
+document.getElementById('playBtn').addEventListener('click', () => {
+    homeScreen.classList.remove('active');
+    infoScreen.classList.add('active');
+});
+
+document.getElementById('coachBtn').addEventListener('click', () => {
+    homeScreen.classList.remove('active');
+    coachListScreen.classList.add('active');
+});
+
+document.getElementById('backBtn').addEventListener('click', () => {
+    infoScreen.classList.remove('active');
+    homeScreen.classList.add('active');
+});
+
+document.getElementById('coachListBackBtn').addEventListener('click', () => {
+    coachListScreen.classList.remove('active');
+    homeScreen.classList.add('active');
+});
+
+document.getElementById('coachDetailBackBtn').addEventListener('click', () => {
+    coachDetailScreen.classList.remove('active');
+    coachListScreen.classList.add('active');
+});
+
+// 页面加载时初始化
+document.addEventListener('DOMContentLoaded', () => {
+    // 创建优雅低调的星空粒子动画
+    createStarfield();
+    
+    // 生成助教列表
+    generateCoachList();
+});
+
+// 窗口大小变化时重新生成星空
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        createStarfield();
+    }, 250);
+});
+
+// 禁止页面缩放
+document.addEventListener('touchstart', function(event) {
+    if (event.touches.length > 1) {
+        event.preventDefault();
+    }
+}, { passive: false });
+
+let lastTouchEnd = 0;
+document.addEventListener('touchend', function(event) {
+    const now = (new Date()).getTime();
+    if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+    }
+    lastTouchEnd = now;
+}, false);
+
+// 添加触摸反馈
+const buttons = document.querySelectorAll('.home-btn, .back-btn');
+buttons.forEach(btn => {
+    btn.addEventListener('touchstart', () => {
+        btn.style.transform = 'scale(0.95)';
+    });
+    
+    btn.addEventListener('touchend', () => {
+        btn.style.transform = '';
+    });
+});
+
+// 预加载大图
+window.addEventListener('load', () => {
+    coaches.forEach(coach => {
+        coach.photos.forEach(photo => {
+            const img = new Image();
+            img.src = photo;
+        });
+    });
+});
+</script>
+</body>
+</html>
